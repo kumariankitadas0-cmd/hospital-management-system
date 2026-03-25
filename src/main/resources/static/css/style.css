@@ -1,0 +1,124 @@
+/* --- COLOR PALETTE --- */
+:root {
+    --pistachio-light: #e2f0cb;
+    --pistachio-dark: #b5d596;
+    --peach-light: #ffdac1;
+    --peach-dark: #ffbaa1;
+    --coffee-light: #f4ece6;
+    --coffee-medium: #cbb4a1;
+    --coffee-dark: #5c4033;
+
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+/* --- ANIMATED BACKGROUND --- */
+body {
+    /* Smooth diagonal gradient of our 3 colors */
+    background: linear-gradient(135deg, var(--pistachio-light), var(--peach-light), var(--coffee-light));
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
+    color: var(--coffee-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- GLASSMORPHISM CARDS --- */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(92, 64, 51, 0.08); /* Soft coffee shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Fade in animation on load */
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 45px 0 rgba(92, 64, 51, 0.15);
+}
+
+/* --- CUSTOM BUTTONS --- */
+.btn-pistachio {
+    background-color: var(--pistachio-dark);
+    color: var(--coffee-dark);
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-pistachio:hover {
+    background-color: #a4c881;
+    color: var(--coffee-dark);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(181, 213, 150, 0.5);
+}
+
+.btn-peach {
+    background-color: var(--peach-dark);
+    color: var(--coffee-dark);
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-peach:hover {
+    background-color: #ff9d7d;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 186, 161, 0.5);
+}
+
+/* --- TABLE STYLING --- */
+.glass-table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--coffee-dark);
+}
+
+.glass-table thead th {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    color: var(--coffee-dark);
+    border-bottom: 2px solid var(--coffee-medium);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.glass-table tbody tr {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.glass-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    transform: scale(1.01);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Delays so items load one after another */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }

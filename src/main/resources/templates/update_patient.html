@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Patient File</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="glass-card delay-2 p-5">
+                <h3 class="fw-bold mb-4 text-center" style="color: var(--coffee-dark);">Update Patient File</h3>
+
+                <form action="#" th:action="@{/savePatient}" th:object="${patient}" method="POST">
+
+                    <input type="hidden" th:field="*{id}" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" style="color: var(--coffee-dark);">Full Name</label>
+                        <input type="text" th:field="*{name}" class="form-control bg-light" th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" style="color: var(--coffee-dark);">Age</label>
+                            <input type="number" th:field="*{age}" class="form-control bg-light" th:classappend="${#fields.hasErrors('age')} ? 'is-invalid' : ''">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" style="color: var(--coffee-dark);">Gender</label>
+                            <select th:field="*{gender}" class="form-select bg-light" th:classappend="${#fields.hasErrors('gender')} ? 'is-invalid' : ''">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold" style="color: var(--coffee-dark);">Medical Diagnosis</label>
+                        <input type="text" th:field="*{diagnosis}" class="form-control bg-light" th:classappend="${#fields.hasErrors('diagnosis')} ? 'is-invalid' : ''">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('diagnosis')}" th:errors="*{diagnosis}"></div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="form-label fw-bold" style="color: var(--coffee-dark);">Assign Doctor</label>
+                        <select th:field="*{doctor}" class="form-select bg-light" required>
+                            <option th:each="doc : ${listDoctors}" th:value="${doc.id}" th:text="${doc.name + ' (' + doc.department + ')'}"></option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/}" class="btn btn-outline-dark px-4 py-2">Cancel & Return</a>
+                        <button type="submit" class="btn btn-peach px-5 py-2">Update Patient Record</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="glass-card delay-2 p-5 mt-5">
+                <div class="text-center mb-4">
+                    <h3 class="fw-bold" style="color: var(--coffee-dark);">Create Account</h3>
+                    <p style="color: var(--coffee-medium);">Register for staff access</p>
+                </div>
+
+                <div th:if="${param.success}" class="alert alert-success" style="background: rgba(25,135,84,0.2); border: none; color: #0f5132;">Registration successful! You can now login.</div>
+                <div th:if="${param.error}" class="alert alert-danger" style="background: rgba(220,53,69,0.2); border: none; color: #842029;">That email is already registered!</div>
+
+                <form th:action="@{/register/save}" th:object="${user}" method="post">
+                    <div class="form-floating mb-3">
+                        <input class="form-control bg-transparent" style="border: 1px solid var(--coffee-medium); color: var(--coffee-dark);" id="name" type="text" th:field="*{name}" placeholder="John Doe" required/>
+                        <label for="name" style="color: var(--coffee-dark);">Full Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control bg-transparent" style="border: 1px solid var(--coffee-medium); color: var(--coffee-dark);" id="email" type="email" th:field="*{email}" placeholder="name@example.com" required/>
+                        <label for="email" style="color: var(--coffee-dark);">Email address</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input class="form-control bg-transparent" style="border: 1px solid var(--coffee-medium); color: var(--coffee-dark);" id="password" type="password" th:field="*{password}" placeholder="Password" required/>
+                        <label for="password" style="color: var(--coffee-dark);">Create Password</label>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-peach btn-lg py-3" type="submit">Register Account</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <div class="small"><a th:href="@{/login}" style="color: var(--coffee-dark); font-weight: 600; text-decoration: none;">Have an account? Go to login</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

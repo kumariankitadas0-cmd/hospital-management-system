@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Medical File</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Patient Medical File</h4>
+                    <span class="badge bg-success">Status: Admitted</span>
+                </div>
+                <div class="card-body p-5">
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold">Patient ID:</div>
+                        <div class="col-sm-8" th:text="${patient.id}"></div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold">Full Name:</div>
+                        <div class="col-sm-8 fs-5 fw-bold text-primary" th:text="${patient.name}"></div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold">Demographics:</div>
+                        <div class="col-sm-8">
+                            <span th:text="${patient.age} + ' years old'"></span> |
+                            <span th:text="${patient.gender}"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold">Diagnosis:</div>
+                        <div class="col-sm-8 text-danger fw-bold" th:text="${patient.diagnosis}"></div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-4 text-muted fw-bold">Attending Physician:</div>
+                        <div class="col-sm-8" th:text="${patient.doctor != null ? patient.doctor.name + ' (' + patient.doctor.department + ')' : 'Unassigned'}"></div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-end p-3">
+                    <a th:href="@{/showFormForUpdate/{id}(id=${patient.id})}" class="btn btn-warning me-2">Edit File</a>
+                    <a th:href="@{/}" class="btn btn-secondary">Return to Directory</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

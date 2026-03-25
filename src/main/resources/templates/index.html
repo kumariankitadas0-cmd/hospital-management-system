@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+
+    <div class="row mb-4 align-items-center delay-1 glass-card p-3 mb-4">
+        <div class="col-md-4">
+            <h3 class="fw-bold mb-0">Hospital Patient Directory</h3>
+        </div>
+        <div class="col-md-8 text-end">
+            <a th:href="@{/doctors}" class="btn btn-peach me-2">Manage Doctors</a>
+            <a th:href="@{/showNewPatientForm}" class="btn btn-pistachio me-2">+ Admit New Patient</a>
+            <a th:href="@{/profile}" class="btn btn-outline-dark me-2">My Profile</a>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-dark">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="glass-card delay-1 p-4 h-100 text-center">
+                <h6 class="text-uppercase" style="color: var(--coffee-medium)">Total Patients</h6>
+                <h2 class="display-5 fw-bold mb-0" th:text="${totalItems}">0</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card delay-2 p-4 h-100 text-center">
+                <h6 class="text-uppercase" style="color: var(--coffee-medium)">Active Doctors</h6>
+                <h2 class="display-5 fw-bold mb-0" th:text="${totalDoctors}">0</h2>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card delay-3 p-4 h-100 text-center">
+                <h6 class="text-uppercase" style="color: var(--coffee-medium)">System Status</h6>
+                <h2 class="display-5 fw-bold mb-0 text-success">Secure</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 offset-md-3">
+            <form th:action="@{/}" method="get" class="d-flex glass-card p-2 delay-2">
+                <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2 border-0 bg-transparent" placeholder="Search by patient name or diagnosis...">
+                <button type="submit" class="btn btn-pistachio px-4">Search</button>
+                <a th:href="@{/}" class="btn btn-link text-muted ms-2">Clear</a>
+            </form>
+        </div>
+    </div>
+
+    <div class="glass-card delay-3 p-4 mb-5">
+        <div class="table-responsive">
+            <table class="table glass-table align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Diagnosis</th>
+                    <th>Attending Doctor</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patient : ${listPatients}">
+                    <td th:text="${patient.id}" class="fw-bold"></td>
+                    <td th:text="${patient.name}" style="color: var(--coffee-dark); font-weight: 600;"></td>
+                    <td th:text="${patient.age}"></td>
+                    <td th:text="${patient.gender}"></td>
+                    <td th:text="${patient.diagnosis}"></td>
+                    <td th:text="${patient.doctor != null ? patient.doctor.name : 'Unassigned'}"></td>
+
+                    <td class="text-center">
+                        <a th:href="@{/viewPatient/{id}(id=${patient.id})}" class="btn btn-sm btn-peach">View</a>
+                        <a th:href="@{/showFormForUpdate/{id}(id=${patient.id})}" class="btn btn-sm btn-pistachio">Edit</a>
+                        <a sec:authorize="hasRole('ADMIN')" th:href="@{/deletePatient/{id}(id=${patient.id})}" class="btn btn-sm btn-outline-danger">Discharge</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${totalPages > 1}" class="d-flex justify-content-between align-items-center mt-4">
+            <div class="fw-bold" style="color: var(--coffee-medium)">
+                Showing Page [[${currentPage}]] of [[${totalPages}]]
+            </div>
+            <div>
+                <ul class="pagination mb-0">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link text-dark bg-transparent border-0" th:href="@{'/page/' + ${currentPage - 1} + ${keyword != null ? '?keyword=' + keyword : ''}}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${currentPage == i} ? 'active'">
+                        <a class="page-link border-0 rounded mx-1" th:style="${currentPage == i} ? 'background-color: var(--pistachio-dark); color: var(--coffee-dark);' : 'background-color: transparent; color: var(--coffee-dark);'" th:href="@{'/page/' + ${i} + ${keyword != null ? '?keyword=' + keyword : ''}}">[[${i}]]</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link text-dark bg-transparent border-0" th:href="@{'/page/' + ${currentPage + 1} + ${keyword != null ? '?keyword=' + keyword : ''}}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
