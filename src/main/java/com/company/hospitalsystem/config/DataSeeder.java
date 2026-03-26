@@ -37,7 +37,8 @@ public class DataSeeder {
             // Seed Admin with an EMAIL instead of username
             if (userRepository.findByEmail("admin@hospital.com") == null) {
                 Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-                User adminUser = new User("System Admin", "admin@hospital.com", passwordEncoder.encode("admin123"), List.of(adminRole));
+                // CHANGE List.of to Set.of here:
+                User adminUser = new User("System Admin", "admin@hospital.com", passwordEncoder.encode("admin123"), java.util.Set.of(adminRole));
                 userRepository.save(adminUser);
             }
         };

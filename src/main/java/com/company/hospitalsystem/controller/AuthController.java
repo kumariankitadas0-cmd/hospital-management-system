@@ -51,9 +51,13 @@ public class AuthController {
         // Encrypt their password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        // Give them a default standard USER role
-        Role role = roleRepository.findByName("ROLE_USER");
-        user.setRoles(List.of(role));
+        // Seed Admin with an EMAIL instead of username
+        if (userRepository.findByEmail("admin@hospital.com") == null) {
+            Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+            // CHANGE List.of to Set.of here:
+            User adminUser = new User("System Admin", "admin@hospital.com", passwordEncoder.encode("admin123"), java.util.Set.of(adminRole));
+            userRepository.save(adminUser);
+        }
 
         userRepository.save(user);
         return "redirect:/register?success";

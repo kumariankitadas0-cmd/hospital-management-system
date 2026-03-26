@@ -1,7 +1,7 @@
 package com.company.hospitalsystem.model;
 
 import jakarta.persistence.*;
-import java.util.Collection;
+import java.util.Set; // Changed to Set
 
 @Entity
 @Table(name = "users")
@@ -26,11 +26,11 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Collection<Role> roles;
+    private Set<Role> roles; // Changed to Set
 
     public User() {}
 
-    public User(String name, String email, String password, Collection<Role> roles) {
+    public User(String name, String email, String password, Set<Role> roles) { // Changed to Set
         this.name = name;
         this.email = email;
         this.password = password;
@@ -45,6 +45,6 @@ public class User {
     public void setEmail(String email) { this.email = email; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
-    public Collection<Role> getRoles() { return roles; }
-    public void setRoles(Collection<Role> roles) { this.roles = roles; }
+    public Set<Role> getRoles() { return roles; } // Changed to Set
+    public void setRoles(Set<Role> roles) { this.roles = roles; } // Changed to Set
 }
